@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "teams": ["Brooklyn Nets", "Chicago Bulls"],
+        "bids": [
+            {
+                "coefficient": 1.920,
+                "minPrice": 543
+            },
+            {
+                "coefficient": 3.801,
+                "minPrice": 178
+            },
+            {
+                "coefficient": 3.702,
+                "minPrice": 185
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "teams": ["Houston Rockets", "Miami Heat"],
+        "bids": [
+            {
+                "coefficient": 1.920,
+                "minPrice": 543
+            },
+            {
+                "coefficient": 3.801,
+                "minPrice": 178
+            },
+            {
+                "coefficient": 3.702,
+                "minPrice": 185
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "teams": ["Detroit Pistons", "Los Angeles Lakers"],
+        "bids": [
+            {
+                "coefficient": 1.920,
+                "minPrice": 543
+            },
+            {
+                "coefficient": 3.801,
+                "minPrice": 178
+            },
+            {
+                "coefficient": 3.702,
+                "minPrice": 185
+            }
+        ]
+    }
+]
