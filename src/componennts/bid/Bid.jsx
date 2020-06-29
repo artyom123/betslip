@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { FormCheck } from 'react-bootstrap';
+import { Label, Input } from 'reactstrap';
+
+import store$ from '../../store';
 
 import './Bid.css';
 
@@ -13,9 +14,11 @@ const propTypes = {
 };
 
 const Bid = ({ action, bids, id }) => {
-    const { coefficients } = useSelector((state) => ({
-        coefficients: state.userReducer.coefficients,
-    }), shallowEqual);
+    const [stateCoefficients, setStateCoefficients] = useState({});
+
+    useEffect(() => {
+        store$.subscribe((state) => setStateCoefficients(state.coefficients));
+    }, [stateCoefficients]);
 
     const handleAction = useCallback((cb, coefficient) => {
         cb(coefficient, id);
@@ -24,23 +27,23 @@ const Bid = ({ action, bids, id }) => {
     return (
         bids.map(({ coefficient, minPrice }) => (
             <td key={`${id}-${coefficient}`}>
-                <FormCheck
+                <div
                     // eslint-disable-next-line no-useless-computed-key
-                    className={clsx('formCheckbox', { ['active']: coefficients[id] === coefficient })}
+                    className={clsx('formCheckbox', { ['active']: stateCoefficients[id] === coefficient })}
                 >
-                    <FormCheck.Input
+                    <Input
                         id={id}
                         type="checkbox"
                         name={id}
                         className="checkbox"
-                        onChange={() => handleAction(action, coefficient, id)}
-                        checked={coefficients[id] === coefficient}
+                        onChange={() => handleAction(action, coefficient)}
+                        checked={stateCoefficients[id] === coefficient}
                     />
-                    <FormCheck.Label className="checkboxLabel">
+                    <Label className="checkboxLabel">
                         { coefficient }
                         <span className="smallText">{ `${minPrice} SRC`}</span>
-                    </FormCheck.Label>
-                </FormCheck>
+                    </Label>
+                </div>
             </td>
         ))
     );

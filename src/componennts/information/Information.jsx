@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { Jumbotron, Container, Row, Col } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Jumbotron, Container, Row, Col } from 'reactstrap';
 
 import LineEvents from '../lineEvents/LineEvents';
 import Calculator from '../calculator/Calculator';
@@ -9,29 +8,32 @@ import games from '../../json/games.json';
 
 import { GAMES_ACTION_TYPES } from '../../constants/ActionTypesConstants';
 
-const Information = () => {
-    const dispatch = useDispatch();
+import store$ from '../../store';
 
-    const { coefficients } = useSelector((state) => ({
-        coefficients: state.userReducer.coefficients,
-    }), shallowEqual);
+const Information = () => {
+    const [stateGames, setStateGames] = useState([]);
+    const [stateCoefficients, setStateCoefficients] = useState({});
 
     useEffect(() => {
-        dispatch({
+        store$.subscribe((state) => {
+            setStateGames(state.games);
+            setStateCoefficients(state.coefficients);
+        });
+        store$.dispatch({
             type: GAMES_ACTION_TYPES.SET_GAMES,
             payload: { games },
         });
-    }, [dispatch]);
+    }, [setStateGames, setStateCoefficients]);
 
     return (
         <Jumbotron>
             <Container>
                 <Row>
                     <Col xs={9}>
-                        <LineEvents games={games} coefficients={coefficients} />
+                        <LineEvents games={stateGames} coefficients={stateCoefficients} />
                     </Col>
                     <Col>
-                        <Calculator coefficients={coefficients} />
+                        <Calculator coefficients={stateCoefficients} />
                     </Col>
                 </Row>
             </Container>

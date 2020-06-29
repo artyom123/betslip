@@ -1,9 +1,10 @@
-import React, { useMemo, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
+import { Table } from 'reactstrap';
 
 import { USER_ACTION_TYPES } from '../../constants/ActionTypesConstants';
+
+import store$ from '../../store';
 
 import Bid from '../bid/Bid';
 
@@ -21,8 +22,6 @@ const defaultProps = {
 };
 
 const LineEvents = ({ coefficients, games }) => {
-    const dispatch = useDispatch();
-
     const handleClick = useCallback((coefficient, id) => {
         const newCoefficients = { ...coefficients };
 
@@ -32,11 +31,11 @@ const LineEvents = ({ coefficients, games }) => {
             newCoefficients[id] = coefficient;
         }
 
-        dispatch({
+        store$.dispatch({
             type: USER_ACTION_TYPES.SET_COEFFICIENTS,
             payload: { coefficients: { ...newCoefficients } },
         });
-    }, [coefficients, dispatch]);
+    }, [coefficients]);
 
     const listGames = useMemo(() => (
         games.map(({ teams, bids, id }) => (

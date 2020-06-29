@@ -1,12 +1,17 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import {
+    Navbar,
+    NavbarBrand,
+    Nav,
+    NavLink,
+} from 'reactstrap';
 
 const Header = () => (
-    <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/">Betslip</Navbar.Brand>
+    <Navbar color="dark" variant="dark">
+        <NavbarBrand href="/">Betslip</NavbarBrand>
         <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/about">About</NavLink>
         </Nav>
     </Navbar>
 );

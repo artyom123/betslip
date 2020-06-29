@@ -1,9 +1,16 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Col, Button } from 'react-bootstrap';
+import {
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button,
+} from 'reactstrap';
 
 import { USER_ACTION_TYPES } from '../../constants/ActionTypesConstants';
+
+import store$ from '../../store';
 
 import './Calculator.css';
 
@@ -18,8 +25,6 @@ const defaultProps = {
 };
 
 const Calculator = ({ coefficients }) => {
-    const dispatch = useDispatch();
-
     const [odds, setOdds] = useState(0);
     const [stake, setStake] = useState('');
     const [profit, setProfit] = useState('');
@@ -59,29 +64,27 @@ const Calculator = ({ coefficients }) => {
         setStake('');
         setProfit('');
 
-        dispatch({
+        store$.dispatch({
             type: USER_ACTION_TYPES.SET_COEFFICIENTS,
             payload: { coefficients: {} },
         });
-    }, [dispatch]);
+    }, []);
 
     return (
         <Form>
-            <Form.Row>
-                <Form.Group as={Col} controlId="formOdds">
-                    <Form.Label>Odds</Form.Label>
-                    <Form.Control type="text" value={odds} disabled />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formStake">
-                    <Form.Label>Stake (SRC)</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} value={stake} />
-                </Form.Group>
-            </Form.Row>
-            <Form.Row>
+            <FormGroup>
+                <Label>Odds</Label>
+                <Input type="text" value={odds} disabled />
+            </FormGroup>
+            <FormGroup>
+                <Label>Stake (SRC)</Label>
+                <Input type="text" onChange={handleChange} value={stake} />
+            </FormGroup>
+            <FormGroup row>
                 <div className="profit">{ `Profit: ${profit}` }</div>
-            </Form.Row>
-            <Form.Row>
-                <Form.Group as={Col}>
+            </FormGroup>
+            <div>
+                <FormGroup>
                     <Button
                         className="button"
                         variant="secondary"
@@ -89,8 +92,8 @@ const Calculator = ({ coefficients }) => {
                     >
                         Cancal
                     </Button>
-                </Form.Group>
-                <Form.Group as={Col}>
+                </FormGroup>
+                <FormGroup>
                     <Button
                         className="button"
                         variant="success"
@@ -98,8 +101,8 @@ const Calculator = ({ coefficients }) => {
                     >
                         Place Bet
                     </Button>
-                </Form.Group>
-            </Form.Row>
+                </FormGroup>
+            </div>
         </Form>
     );
 };
