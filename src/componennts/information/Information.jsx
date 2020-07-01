@@ -19,11 +19,14 @@ const Information = () => {
             setStateGames(state.games);
             setStateCoefficients(state.coefficients);
         });
+    }, []);
+
+    useEffect(() => {
         store$.dispatch({
             type: GAMES_ACTION_TYPES.SET_GAMES,
             payload: { games },
         });
-    }, [setStateGames, setStateCoefficients]);
+    }, []);
 
     return (
         <Jumbotron>
@@ -43,4 +46,4 @@ const Information = () => {
 
 Information.displayName = 'Information';
 
-export default Information;
+export default React.memo(Information);

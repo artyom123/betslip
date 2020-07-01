@@ -6,6 +6,8 @@ import {
     Label,
     Input,
     Button,
+    Row,
+    Col,
 } from 'reactstrap';
 
 import { USER_ACTION_TYPES } from '../../constants/ActionTypesConstants';
@@ -60,15 +62,17 @@ const Calculator = ({ coefficients }) => {
     }, []);
 
     const handleReset = useCallback(() => {
-        setOdds(0);
-        setStake('');
-        setProfit('');
+        if (odds || stake) {
+            setOdds(0);
+            setStake('');
+            setProfit('');
 
-        store$.dispatch({
-            type: USER_ACTION_TYPES.SET_COEFFICIENTS,
-            payload: { coefficients: {} },
-        });
-    }, []);
+            store$.dispatch({
+                type: USER_ACTION_TYPES.SET_COEFFICIENTS,
+                payload: { coefficients: {} },
+            });
+        }
+    }, [odds, stake]);
 
     return (
         <Form>
@@ -77,32 +81,34 @@ const Calculator = ({ coefficients }) => {
                 <Input type="text" value={odds} disabled />
             </FormGroup>
             <FormGroup>
-                <Label>Stake (SRC)</Label>
-                <Input type="text" onChange={handleChange} value={stake} />
+                <Label for="stake">Stake (SRC)</Label>
+                <Input id="stake" type="text" onChange={handleChange} value={stake} />
             </FormGroup>
-            <FormGroup row>
-                <div className="profit">{ `Profit: ${profit}` }</div>
-            </FormGroup>
-            <div>
-                <FormGroup>
+            <Row>
+                <Col>
+                    <div className="profit">{ `Profit: ${profit}` }</div>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={6}>
                     <Button
+                        color="secondary"
                         className="button"
-                        variant="secondary"
                         onClick={handleReset}
                     >
                         Cancal
                     </Button>
-                </FormGroup>
-                <FormGroup>
+                </Col>
+                <Col md={6}>
                     <Button
+                        color="success"
                         className="button"
-                        variant="success"
                         disabled={!profit}
                     >
                         Place Bet
                     </Button>
-                </FormGroup>
-            </div>
+                </Col>
+            </Row>
         </Form>
     );
 };
@@ -111,4 +117,4 @@ Calculator.propTypes = propTypes;
 Calculator.defaultProps = defaultProps;
 Calculator.displayName = 'Calculator';
 
-export default Calculator;
+export default React.memo(Calculator);

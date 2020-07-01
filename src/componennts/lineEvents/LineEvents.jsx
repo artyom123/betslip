@@ -45,13 +45,14 @@ const LineEvents = ({ coefficients, games }) => {
                     id={id}
                     bids={bids}
                     action={handleClick}
+                    coefficients={coefficients}
                 />
             </tr>
         ))
-    ), [games, handleClick]);
+    ), [games, coefficients, handleClick]);
 
     return (
-        <Table striped bordered hover variant="dark">
+        <Table hover dark>
             <thead>
                 <tr>
                     <th>Winner</th>
@@ -71,4 +72,4 @@ LineEvents.propTypes = propTypes;
 LineEvents.defaultProps = defaultProps;
 LineEvents.displayName = 'LineEvents';
 
-export default LineEvents;
+export default React.memo(LineEvents);
